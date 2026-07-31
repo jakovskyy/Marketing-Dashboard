@@ -321,6 +321,19 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
 
   <div id="articleList"></div>
 
+  <div class="block" style="margin-top:20px">
+    <h3><span class="acc">●</span> Folder structure</h3>
+    <div class="kv">
+      <p><strong>Content Audit /</strong></p>
+      <ul class="rule-list" style="margin-left:8px">
+        <li>audit-log.md — every audited article, its status and the fixes applied</li>
+        <li>content-audit-spec.md — the workflow and how the agent reports changes</li>
+        <li>audit-reports / — per-batch findings (pillars, clusters, per-article)</li>
+        <li>revised / — revised article text saved during the audit</li>
+      </ul>
+    </div>
+  </div>
+
   <div class="workspace-footer">
     <span class="footer-link" onclick="sendPrompt('Open the content audit spec')">Content Audit Spec</span>
     <span class="footer-sep">·</span>
@@ -418,6 +431,19 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
     </ul>
   </div>
 
+  <div class="block">
+    <h3><span class="acc">●</span> Folder structure</h3>
+    <div class="kv">
+      <p><strong>Content Maintenance /</strong></p>
+      <ul class="rule-list" style="margin-left:8px">
+        <li>volatile-facts-register.md — every time-sensitive fact mapped to the articles that cite it</li>
+        <li>content-maintenance-spec.md — the workflow and the three triggers</li>
+        <li>logs / maintenance-log.md — one line per sweep</li>
+        <li>logs / sweep-[date].md — the quarterly sweep report (facts and RAG)</li>
+      </ul>
+    </div>
+  </div>
+
   <div class="workspace-footer">
     <span class="footer-link" onclick="sendPrompt('Open the content maintenance spec')">Open maintenance spec</span>
     <span class="footer-sep">·</span>
@@ -493,6 +519,21 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
       <li><strong>Maintenance → RAG.</strong> The volatile-facts register maps time-sensitive facts to the articles that cite them. 51 chunks carry a review_by date set by volatility, not the calendar, and the quarterly facts sweep should eventually reach them.</li>
       <li><strong>Pipeline → RAG.</strong> New articles are candidates for new chunks. Nothing links the two today, which is part of why 13 audited articles still feed nothing.</li>
     </ul>
+  </div>
+
+  <div class="block">
+    <h3><span class="acc">●</span> Folder structure</h3>
+    <div class="kv">
+      <p><strong>Content RAG /</strong></p>
+      <ul class="rule-list" style="margin-left:8px">
+        <li>_SCHEMA.md — chunk metadata spec and controlled vocabularies</li>
+        <li>_BASELINE.md — 18 source articles, baseline dates, article-to-chunk map, drift log (Path 1)</li>
+        <li>_INTAKE.md — 22 unmapped articles with dispositions, five pillar candidates (Path 2)</li>
+        <li>_AGENT.md — the agent: two paths, settings, bootstrap</li>
+        <li>rag-NN-*.md — one file per pillar (00, 01, 02, 03, 04, 05, 07)</li>
+        <li>_snapshots / — per-article full-text baseline, created on first run</li>
+      </ul>
+    </div>
   </div>
 
   <div class="workspace-footer">
