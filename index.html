@@ -3,7 +3,7 @@
 {
   "name": "Closing Map Marketing Workspace",
   "schemaVersion": 1,
-  "description": "Closing Map Marketing Workspace — branded internal dashboard. Content Audit tracker for 41 Notion articles (36 auditable; 5 parked in Drafts) with live Notion sync, search, per-article notes, and status tracking. 31 of 36 complete. Tabs for Pipeline, Maintenance, a live Scheduled tab tracking autonomous agent runs by project (from the scheduled-tasks MCP), and Brand Context standing rules."
+  "description": "Closing Map Marketing Workspace — branded internal dashboard. Content Audit tracker for 41 Notion articles (36 auditable; 5 parked in Drafts) with live Notion sync, search, per-article notes, and status tracking. 31 of 36 complete. Tabs for Pipeline, Maintenance, RAG (the 57-chunk retrieval corpus feeding Tilo, shown by pillar and by article coverage), a live Scheduled tab tracking autonomous agent runs by project (from the scheduled-tasks MCP), and Brand Context standing rules."
 }
 </script>
 <html lang="en">
@@ -208,6 +208,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
 .run-pill.active{background:var(--green-soft);color:var(--green-dk)}
 .run-pill.paused{background:var(--amber-soft);color:var(--amber)}
 .run-pill.done{background:var(--line-soft);color:var(--muted)}
+.run-pill.disp{background:var(--red-soft);color:var(--red)}
 .run-note{font-size:11px;color:var(--muted);margin-top:11px;line-height:1.5}
 .coverage-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
 .cov{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;padding:7px 12px;border-radius:8px;background:var(--line-soft);color:var(--muted)}
@@ -238,6 +239,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
 <body>
 
 <div class="ro-ribbon">Team snapshot &middot; read-only. Data current as of <b>July 14, 2026</b>. Live controls run in the Sisyphus workspace; the buttons here are view-only for now.</div>
+
 <!-- HEADER -->
 <div class="header">
   <div class="header-left">
@@ -261,6 +263,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
   <button class="tab-btn active" data-tab="audit" onclick="setTab('audit',this)">Content Audit</button>
   <button class="tab-btn" data-tab="pipeline" onclick="setTab('pipeline',this)">Pipeline</button>
   <button class="tab-btn" data-tab="maintenance" onclick="setTab('maintenance',this)">Maintenance</button>
+  <button class="tab-btn" data-tab="rag" onclick="setTab('rag',this)">RAG</button>
   <button class="tab-btn" data-tab="scheduled" onclick="setTab('scheduled',this)">Scheduled</button>
   <button class="tab-btn" data-tab="brand" onclick="setTab('brand',this)">Brand Context</button>
   <button class="tab-btn locked">Verified Seller <span class="soon">On Hold</span></button>
@@ -421,6 +424,68 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
     <span class="footer-link" onclick="sendPrompt('Open the volatile facts register')">Open facts register</span>
     <span class="footer-sep">·</span>
     <span class="footer-link" onclick="sendPrompt('Start verifying the volatile facts register')">▶ Verify the facts register</span>
+  </div>
+</div>
+
+<!-- ============ RAG PANEL ============ -->
+<div class="panel" id="panel-rag">
+  <p class="section-intro">The fourth workflow. RAG is the retrieval layer that feeds Tilo. It is built from the audited Notion articles, broken into chunks and grouped into intent pillars, with every chunk recording the article it came from. It is the inverse of the audit: the audit asks whether an article is correct, RAG asks which articles actually reach Tilo, and which reach it not at all.</p>
+
+  <div class="status-line" style="background:var(--green-soft);color:var(--green-dk)"><span class="sync-dot" style="background:var(--green)"></span> 57 chunks · 7 pillars built · 41 ready to serve · the corpus feeds Tilo</div>
+
+  <div class="stats-grid" style="margin-bottom:18px">
+    <div class="stat-card"><div class="stat-num">57</div><div class="stat-lbl">Chunks</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--blue)">7</div><div class="stat-lbl">Pillars Built</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--green-dk)">41</div><div class="stat-lbl">Ready to Serve</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--amber)">13</div><div class="stat-lbl">Articles Unreached</div></div>
+  </div>
+
+  <div class="block">
+    <h3><span class="acc">●</span> The seven pillars</h3>
+    <div class="kv" style="margin-bottom:12px"><p>One file per intent pillar, ported from the RAGS corpus. RAG 00 (Cost Clarity) sits first in the buyer journey despite the number. RAG 06 is not built yet: its state-specific sources are still unaudited.</p></div>
+    <div class="sched-wrap">
+      <table class="sched-table">
+        <thead><tr><th>Pillar</th><th>Chunks</th><th>State</th></tr></thead>
+        <tbody>
+          <tr><td><div class="agent-name">RAG 00 · Cost Clarity</div></td><td>9</td><td><span class="run-pill paused">1 disputed · 2 to verify</span></td></tr>
+          <tr><td><div class="agent-name">RAG 01 · Understanding Title Insurance</div></td><td>8</td><td><span class="run-pill disp">1 disputed</span></td></tr>
+          <tr><td><div class="agent-name">RAG 02 · Verified Seller</div></td><td>6</td><td><span class="run-pill done">On hold · do not serve</span></td></tr>
+          <tr><td><div class="agent-name">RAG 03 · Closing Roadmap &amp; Timeline</div></td><td>9</td><td><span class="run-pill paused">3 to verify</span></td></tr>
+          <tr><td><div class="agent-name">RAG 04 · Choosing Your Team</div></td><td>9</td><td><span class="run-pill active">All ready</span></td></tr>
+          <tr><td><div class="agent-name">RAG 05 · Closing Risks &amp; Deal Killers</div></td><td>6</td><td><span class="run-pill active">All ready</span></td></tr>
+          <tr><td><div class="agent-name">RAG 07 · Title Defects</div></td><td>10</td><td><span class="run-pill paused">1 to verify</span></td></tr>
+          <tr><td><div class="agent-name" style="color:var(--muted)">RAG 06 · State-Specific Rules</div></td><td>—</td><td><span class="run-pill done">Not built</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="run-note">Serving state across the corpus: 41 ready, 8 need verification (served with a figures caveat), 2 disputed and held, 6 on hold. 6 of the 57 are fallback chunks for out-of-scope questions.</div>
+  </div>
+
+  <div class="block">
+    <h3><span class="acc">●</span> Coverage — the inverse of the audit</h3>
+    <div class="kv" style="margin-bottom:11px"><p>The audit asks whether an article is correct. RAG asks which articles are actually reaching Tilo. Of the 30 audited articles, 17 feed at least one chunk and 13 feed none, and no other view surfaces that gap.</p></div>
+    <div class="coverage-row">
+      <span class="cov on"><span class="dot"></span>Reaching Tilo: 17 of 30 audited</span>
+      <span class="cov" style="background:var(--amber-soft);color:var(--amber)"><span class="dot" style="background:var(--amber)"></span>Not reaching: 13 of 30 audited</span>
+    </div>
+    <div class="run-note" style="margin-top:12px"><strong>Concentration risk.</strong> The Definitive Home Buyers Guide alone feeds 14 chunks, about a quarter of the corpus. A single correction there moves a quarter of what Tilo retrieves. What Is a Title Commitment and Understanding Title Insurance feed 6 each; most other articles feed one.</div>
+  </div>
+
+  <div class="block">
+    <h3><span class="acc">●</span> How it connects to the other three</h3>
+    <ul class="rule-list" style="margin-bottom:0">
+      <li><strong>Audit → RAG.</strong> Chunks sit downstream of audited articles. When an article is corrected, every chunk citing it has to move with it. 44 of the 57 chunks trace to audited sources.</li>
+      <li><strong>Maintenance → RAG.</strong> The volatile-facts register maps time-sensitive facts to the articles that cite them. 51 chunks carry a review_by date set by volatility, not the calendar, and the quarterly facts sweep should eventually reach them.</li>
+      <li><strong>Pipeline → RAG.</strong> New articles are candidates for new chunks. Nothing links the two today, which is part of why 13 audited articles still feed nothing.</li>
+    </ul>
+  </div>
+
+  <div class="workspace-footer">
+    <span class="footer-link" onclick="sendPrompt('Open the RAG chunk schema at Content RAG/_SCHEMA.md')">Open the chunk schema</span>
+    <span class="footer-sep">·</span>
+    <span class="footer-link" onclick="sendPrompt('List the audited articles that feed no RAG chunk')">See the coverage gap</span>
+    <span class="footer-sep">·</span>
+    <span class="footer-link" onclick="sendPrompt('Start the RAG verification run for the chunks marked needs-verification and disputed')">▶ Run the verification pass</span>
   </div>
 </div>
 
