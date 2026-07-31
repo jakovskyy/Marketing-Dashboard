@@ -441,6 +441,21 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
   </div>
 
   <div class="block">
+    <h3><span class="acc">●</span> The RAG agent</h3>
+    <div class="status-line" style="background:var(--amber-soft);color:var(--amber);margin-bottom:14px"><span class="sync-dot" style="background:var(--amber)"></span> Awaiting first run · snapshot bootstrap pending · rides the quarterly facts sweep</div>
+    <div class="kv" style="margin-bottom:14px"><p>Two paths, one agent. It reports and proposes; every chunk edit and Notion correction stays with Jacob, the same rule as the pipeline. Detection is mechanical. Judging materiality and fit is the part worth an agent.</p></div>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><div class="flow-title">Drift <span class="pill" style="margin-left:6px">18 articles · 51 chunks</span></div><div class="flow-desc">Compares each source article's current Notion last-edited time and text against the recorded baseline. Where an article moved, reports which chunks it feeds and whether the change is material to each. The Buyers Guide, Understanding Title Insurance, and What Is a Title Commitment carry 26 of the 51 chunks, so an edit there skips triage and goes straight to review.</div></div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-body"><div class="flow-title">Intake <span class="pill" style="margin-left:6px">22 articles waiting</span></div><div class="flow-desc">Articles arriving into scope: newly audited, still unaudited, or in Drafts. Reports whether each should become a chunk in an existing pillar, or clusters with others around a subject no pillar covers. 13 audited and 9 unaudited or draft articles reach Tilo not at all, the larger opportunity.</div></div></div>
+    </div>
+    <div class="pill-row" style="margin-top:14px">
+      <span class="pill live">Chunks awaiting review: 0</span>
+      <span class="pill live">Intake without a disposition: 0</span>
+    </div>
+    <div class="run-note" style="margin-top:12px">Rides the quarterly facts sweep (Jan · Apr · Jul · Oct 1) alongside Maintenance: one sweep, two outputs, no separate schedule. Plus a per-article mode on demand. First run captures a full-text snapshot of all 18 source articles; everything after is a diff. Pillar clusters are flagged, not created: naming a new pillar stays a human call.</div>
+  </div>
+
+  <div class="block">
     <h3><span class="acc">●</span> The seven pillars</h3>
     <div class="kv" style="margin-bottom:12px"><p>One file per intent pillar, ported from the RAGS corpus. RAG 00 (Cost Clarity) sits first in the buyer journey despite the number. RAG 06 is not built yet: its state-specific sources are still unaudited.</p></div>
     <div class="sched-wrap">
@@ -485,7 +500,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
     <span class="footer-sep">·</span>
     <span class="footer-link" onclick="sendPrompt('List the audited articles that feed no RAG chunk')">See the coverage gap</span>
     <span class="footer-sep">·</span>
-    <span class="footer-link" onclick="sendPrompt('Start the RAG verification run for the chunks marked needs-verification and disputed')">▶ Run the verification pass</span>
+    <span class="footer-link" onclick="sendPrompt('Run the RAG agent now: bootstrap the source snapshots from _BASELINE.md, then report drift and intake')">▶ Run the RAG agent now</span>
   </div>
 </div>
 
@@ -497,11 +512,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
 
   <div class="block">
     <h3><span class="acc">●</span> Workflow coverage</h3>
-    <div class="kv" style="margin-bottom:12px"><p>How each of the three content workflows is covered. Coverage is not the same as running daily. A workflow is covered whether it runs on a schedule, as a standing pass, or on demand per cycle.</p></div>
+    <div class="kv" style="margin-bottom:12px"><p>How each of the four content workflows is covered. Coverage is not the same as running daily. A workflow is covered whether it runs on a schedule, as a standing pass, or on demand per cycle.</p></div>
     <div class="coverage-row">
       <span class="cov on"><span class="dot"></span><b>Maintenance</b> · Autonomous · quarterly facts sweep</span>
       <span class="cov on"><span class="dot"></span><b>Audit</b> · Standing pass · complete, re-run on demand</span>
       <span class="cov on"><span class="dot"></span><b>Pipeline</b> · On-demand · runs per cycle, Run 1 complete</span>
+      <span class="cov on"><span class="dot"></span><b>RAG</b> · Autonomous · rides the quarterly sweep</span>
     </div>
   </div>
 
@@ -808,7 +824,7 @@ async function syncNotion(){
 /* ---- SCHEDULED AGENTS (live from scheduled-tasks MCP) ---- */
 const SCHED_TOOL='mcp__scheduled-tasks__list_scheduled_tasks';
 const SCHED_FALLBACK=[
-  {taskId:'closingmap-quarterly-facts-sweep',description:'Quarterly verification sweep of the volatile-facts register; surfaces a diff of what changed for Jacob to approve.',schedule:'09:00, day 1 of Jan · Apr · Jul · Oct',cronExpression:'0 9 1 1,4,7,10 *',enabled:true,nextRunAt:'2026-10-01T13:08:59.000Z',lastRunAt:'2026-07-01T13:09:05.905Z'}
+  {taskId:'closingmap-quarterly-facts-sweep',description:'Quarterly Closing Map content sweep: verify volatile facts + RAG drift and intake. Reports for Jacob to approve.',schedule:'09:00, day 1 of Jan · Apr · Jul · Oct',cronExpression:'0 9 1 1,4,7,10 *',enabled:true,nextRunAt:'2026-10-01T13:08:59.000Z',lastRunAt:'2026-07-01T13:09:05.905Z'}
 ];
 function projectOf(t){
   const s=((t.taskId||'')+' '+(t.description||'')).toLowerCase();
