@@ -498,7 +498,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
 
   <div class="block">
     <h3><span class="acc">●</span> The RAG agent</h3>
-    <div class="status-line" style="background:var(--amber-soft);color:var(--amber);margin-bottom:14px"><span class="sync-dot" style="background:var(--amber)"></span> The agent has not run yet. It runs alongside the quarterly facts sweep.</div>
+    <div class="status-line" style="background:var(--amber-soft);color:var(--amber);margin-bottom:14px"><span class="sync-dot" style="background:var(--amber)"></span> The agent has not run yet. It runs with the quarterly facts sweep, and on demand the moment a new article ships.</div>
     <div class="kv" style="margin-bottom:14px"><p>This agentic workflow takes on two paths. Every chunk edit and Notion correction stays with Jacob, as it is with the pipeline; and in each case it reports, judges, and proposes material.</p></div>
     <div class="flow">
       <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><div class="flow-title">Drift <span class="pill" style="margin-left:6px">18 articles · 51 chunks</span></div><div class="flow-desc">It compares each source article's current version in Notion against the copy it saved earlier. When an article has changed, it reports which chunks come from that article and whether the change actually affects each one. The Buyers Guide, Understanding Title Insurance, and What Is a Title Commitment together supply 26 of the 51 chunks, so any edit to those three goes straight to review.</div></div></div>
@@ -508,7 +508,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
       <span class="pill live">Chunks awaiting review: 0</span>
       <span class="pill live">Intake without a disposition: 0</span>
     </div>
-    <div class="run-note" style="margin-top:12px">It runs alongside the quarterly facts sweep on the first of January, April, July, and October, so one sweep produces two reports and there is no separate schedule. You can also point it at a single article at any time. On its first run it saves a copy of each of the 18 source articles. After that, every run compares the current article against the saved copy to see exactly what changed. When several articles cluster around a subject that no pillar covers, the agent flags the pattern, but it does not create the pillar, because naming a pillar is a decision for you.</div>
+    <div class="run-note" style="margin-top:12px">It runs alongside the quarterly facts sweep on the first of January, April, July, and October, so one sweep produces two reports. It also runs on demand. You do not have to wait for the sweep. When a new article ships from the pipeline, the intake check can run right then, and you can point the agent at a single article at any time. On its first run it saves a copy of each of the 18 source articles. After that, every run compares the current article against the saved copy to see exactly what changed. When several articles cluster around a subject that no pillar covers, the agent flags the pattern, but it does not create the pillar, because naming a pillar is a decision for you.</div>
   </div>
 
   <div class="block">
@@ -583,12 +583,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
 
   <div class="block">
     <h3><span class="acc">●</span> Workflow coverage</h3>
-    <div class="kv" style="margin-bottom:12px"><p>How each of the four content workflows is covered. Coverage is not the same as running daily. A workflow is covered whether it runs on a schedule, as a standing pass, or on demand per cycle.</p></div>
+    <div class="kv" style="margin-bottom:12px"><p>How each of the four content workflows is covered. Coverage is not the same as running every day. A workflow counts as covered whether it runs on a schedule or on demand.</p></div>
     <div class="coverage-row">
       <span class="cov on"><span class="dot"></span><b>Maintenance</b> · Autonomous · quarterly facts sweep</span>
-      <span class="cov on"><span class="dot"></span><b>Audit</b> · Standing pass · complete, re-run on demand</span>
-      <span class="cov on"><span class="dot"></span><b>Pipeline</b> · On-demand · runs per cycle, Run 1 complete</span>
-      <span class="cov on"><span class="dot"></span><b>RAG</b> · Autonomous · rides the quarterly sweep</span>
+      <span class="cov on"><span class="dot"></span><b>Audit</b> · On demand · the last full pass is complete, re-run when needed</span>
+      <span class="cov on"><span class="dot"></span><b>Pipeline</b> · On demand · runs per cycle, Run 1 complete</span>
+      <span class="cov on"><span class="dot"></span><b>RAG</b> · Autonomous and on demand · the quarterly sweep, plus intake whenever a new article ships</span>
     </div>
   </div>
 
