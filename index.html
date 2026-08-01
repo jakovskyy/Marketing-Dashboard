@@ -455,7 +455,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
 
 <!-- ============ RAG PANEL ============ -->
 <div class="panel" id="panel-rag">
-  <p class="section-intro">The fourth workflow. RAG is the retrieval layer that feeds Tilo. It is built from the audited Notion articles, broken into chunks and grouped into intent pillars, with every chunk recording the article it came from. It is the inverse of the audit: the audit asks whether an article is correct, RAG asks which articles actually reach Tilo, and which reach it not at all.</p>
+  <p class="section-intro">RAG is the fourth workflow, and it is the retrieval layer that feeds Tilo. It is built from the audited Notion articles, broken into chunks and grouped into intent pillars, and every chunk records the article it came from. It is the inverse of the audit. The audit asks whether an article is correct. RAG asks which articles actually reach Tilo and which don't reach it at all.</p>
 
   <div class="status-line" style="background:var(--green-soft);color:var(--green-dk)"><span class="sync-dot" style="background:var(--green)"></span> 57 chunks · 7 pillars built · 41 ready to serve · the corpus feeds Tilo</div>
 
@@ -468,17 +468,17 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
 
   <div class="block">
     <h3><span class="acc">●</span> The RAG agent</h3>
-    <div class="status-line" style="background:var(--amber-soft);color:var(--amber);margin-bottom:14px"><span class="sync-dot" style="background:var(--amber)"></span> Awaiting first run · snapshot bootstrap pending · rides the quarterly facts sweep</div>
-    <div class="kv" style="margin-bottom:14px"><p>Two paths, one agent. It reports and proposes; every chunk edit and Notion correction stays with Jacob, the same rule as the pipeline. Detection is mechanical. Judging materiality and fit is the part worth an agent.</p></div>
+    <div class="status-line" style="background:var(--amber-soft);color:var(--amber);margin-bottom:14px"><span class="sync-dot" style="background:var(--amber)"></span> The agent has not run yet. It runs alongside the quarterly facts sweep.</div>
+    <div class="kv" style="margin-bottom:14px"><p>This agentic workflow takes on two paths. Every chunk edit and Notion correction stays with Jacob, as it is with the pipeline; and in each case it reports, judges, and proposes material.</p></div>
     <div class="flow">
-      <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><div class="flow-title">Drift <span class="pill" style="margin-left:6px">18 articles · 51 chunks</span></div><div class="flow-desc">Compares each source article's current Notion last-edited time and text against the recorded baseline. Where an article moved, reports which chunks it feeds and whether the change is material to each. The Buyers Guide, Understanding Title Insurance, and What Is a Title Commitment carry 26 of the 51 chunks, so an edit there skips triage and goes straight to review.</div></div></div>
-      <div class="flow-step"><div class="flow-num">2</div><div class="flow-body"><div class="flow-title">Intake <span class="pill" style="margin-left:6px">22 articles waiting</span></div><div class="flow-desc">Articles arriving into scope: newly audited, still unaudited, or in Drafts. Reports whether each should become a chunk in an existing pillar, or clusters with others around a subject no pillar covers. 13 audited and 9 unaudited or draft articles reach Tilo not at all, the larger opportunity.</div></div></div>
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><div class="flow-title">Drift <span class="pill" style="margin-left:6px">18 articles · 51 chunks</span></div><div class="flow-desc">It compares each source article's current version in Notion against the copy it saved earlier. When an article has changed, it reports which chunks come from that article and whether the change actually affects each one. The Buyers Guide, Understanding Title Insurance, and What Is a Title Commitment together supply 26 of the 51 chunks, so any edit to those three goes straight to review.</div></div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-body"><div class="flow-title">Intake <span class="pill" style="margin-left:6px">22 articles waiting</span></div><div class="flow-desc">It looks at articles that are new to the corpus, whether newly audited, still unaudited, or sitting in Drafts. It reports whether each one should become a chunk in an existing pillar, or whether it belongs with other articles around a subject that no pillar covers yet. Thirteen audited articles and nine unaudited or draft articles do not reach Tilo at all, and that is the larger opportunity.</div></div></div>
     </div>
     <div class="pill-row" style="margin-top:14px">
       <span class="pill live">Chunks awaiting review: 0</span>
       <span class="pill live">Intake without a disposition: 0</span>
     </div>
-    <div class="run-note" style="margin-top:12px">Rides the quarterly facts sweep (Jan · Apr · Jul · Oct 1) alongside Maintenance: one sweep, two outputs, no separate schedule. Plus a per-article mode on demand. First run captures a full-text snapshot of all 18 source articles; everything after is a diff. Pillar clusters are flagged, not created: naming a new pillar stays a human call.</div>
+    <div class="run-note" style="margin-top:12px">It runs alongside the quarterly facts sweep on the first of January, April, July, and October, so one sweep produces two reports and there is no separate schedule. You can also point it at a single article at any time. On its first run it saves a copy of each of the 18 source articles. After that, every run compares the current article against the saved copy to see exactly what changed. When several articles cluster around a subject that no pillar covers, the agent flags the pattern, but it does not create the pillar, because naming a pillar is a decision for you.</div>
   </div>
 
   <div class="block">
@@ -529,7 +529,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);min-height:10
         <li>_SCHEMA.md — chunk metadata spec and controlled vocabularies</li>
         <li>_BASELINE.md — 18 source articles, baseline dates, article-to-chunk map, drift log (Path 1)</li>
         <li>_INTAKE.md — 22 unmapped articles with dispositions, five pillar candidates (Path 2)</li>
-        <li>_AGENT.md — the agent: two paths, settings, bootstrap</li>
+        <li>_AGENT.md — the agent: its two paths, its settings, and how the first run works</li>
         <li>rag-NN-*.md — one file per pillar (00, 01, 02, 03, 04, 05, 07)</li>
         <li>_snapshots / — per-article full-text baseline, created on first run</li>
       </ul>
