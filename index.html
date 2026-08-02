@@ -1033,7 +1033,7 @@ renderSchedule();
       <button class="asst-btn play" id="asstPlay">&#9654; Play briefing</button>
       <button class="asst-btn stop" id="asstStop" style="display:none">&#9632; Stop</button>
     </div>
-    <div class="asst-note">Spoken with your device's voice. Snapshot as of August 1, 2026.</div>
+    <div class="asst-note">Spoken in an ElevenLabs voice. Snapshot as of August 1, 2026.</div>
   </div>
   <button class="asst-fab pulse" id="asstFab" aria-label="Open briefing">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
@@ -1043,6 +1043,7 @@ renderSchedule();
 (function(){
   var hour=new Date().getHours();
   var greet = hour<12 ? "Good morning." : hour<18 ? "Good afternoon." : "Good evening.";
+  var clip  = hour<12 ? "morning.mp3" : hour<18 ? "afternoon.mp3" : "evening.mp3";
   var brief = "Here is your Closing Map briefing. The content audit is thirty-one of thirty-six complete, and one item is flagged: Housing Inventory Rising needs a timeliness refresh. The corpus that feeds Tilo holds fifty-seven chunks across seven pillars, and forty-one are ready to serve. Thirteen audited articles do not reach Tilo yet. The RAG agent has not run its first pass. It rides the quarterly sweep and also runs on demand when a new article ships. That is where things stand today.";
   var gEl=document.getElementById('asstGreet'), bEl=document.getElementById('asstBrief');
   if(gEl) gEl.textContent=greet;
@@ -1063,20 +1064,32 @@ renderSchedule();
   if('speechSynthesis' in window){ pickVoice(); window.speechSynthesis.onvoiceschanged=pickVoice; }
 
   var playBtn=document.getElementById('asstPlay'), stopBtn=document.getElementById('asstStop');
-  function done(){ if(stopBtn) stopBtn.style.display='none'; if(playBtn) playBtn.style.display=''; }
-  function speak(){
-    if(!('speechSynthesis' in window)){ return; }
+  var audio=null;
+  function showStop(on){ if(stopBtn) stopBtn.style.display=on?'':'none'; if(playBtn) playBtn.style.display=on?'none':''; }
+  function fallbackSpeak(){
+    if(!('speechSynthesis' in window)){ showStop(false); return; }
     window.speechSynthesis.cancel();
     var u=new SpeechSynthesisUtterance(greet+" "+brief);
     u.lang='en-US'; u.rate=1.0; u.pitch=1.05; if(voice) u.voice=voice;
-    u.onend=done; u.onerror=done;
-    window.speechSynthesis.speak(u);
-    if(playBtn) playBtn.style.display='none'; if(stopBtn) stopBtn.style.display='';
+    u.onend=function(){ showStop(false); }; u.onerror=u.onend;
+    window.speechSynthesis.speak(u); showStop(true);
   }
-  function stop(){ if('speechSynthesis' in window) window.speechSynthesis.cancel(); done(); }
-  if(playBtn) playBtn.addEventListener('click',speak);
-  if(stopBtn) stopBtn.addEventListener('click',stop);
-  window.addEventListener('beforeunload',function(){ if('speechSynthesis' in window) window.speechSynthesis.cancel(); });
+  function stopAll(){ if(audio){ try{ audio.pause(); }catch(e){} } if('speechSynthesis' in window) window.speechSynthesis.cancel(); showStop(false); }
+  function play(){
+    stopAll();
+    if(!audio){
+      audio=new Audio(clip);
+      audio.addEventListener('ended',function(){ showStop(false); });
+      audio.addEventListener('error',function(){ showStop(false); fallbackSpeak(); });
+    }
+    try{ audio.currentTime=0; }catch(e){}
+    var p=audio.play();
+    if(p&&p.catch){ p.catch(function(){ fallbackSpeak(); }); }
+    showStop(true);
+  }
+  if(playBtn) playBtn.addEventListener('click',play);
+  if(stopBtn) stopBtn.addEventListener('click',stopAll);
+  window.addEventListener('beforeunload',function(){ if(audio){try{audio.pause();}catch(e){}} if('speechSynthesis' in window) window.speechSynthesis.cancel(); });
 })();
 </script>
 </body>
