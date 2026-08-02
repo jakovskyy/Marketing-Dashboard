@@ -1043,7 +1043,6 @@ renderSchedule();
 (function(){
   var hour=new Date().getHours();
   var greet = hour<12 ? "Good morning." : hour<18 ? "Good afternoon." : "Good evening.";
-  var clip  = hour<12 ? "morning.mp3" : hour<18 ? "afternoon.mp3" : "evening.mp3";
   var brief = "Here is your Closing Map briefing. The content audit is thirty-one of thirty-six complete, and one item is flagged: Housing Inventory Rising needs a timeliness refresh. The corpus that feeds Tilo holds fifty-seven chunks across seven pillars, and forty-one are ready to serve. Thirteen audited articles do not reach Tilo yet. The RAG agent has not run its first pass. It rides the quarterly sweep and also runs on demand when a new article ships. That is where things stand today.";
   var gEl=document.getElementById('asstGreet'), bEl=document.getElementById('asstBrief');
   if(gEl) gEl.textContent=greet;
@@ -1075,14 +1074,12 @@ renderSchedule();
     window.speechSynthesis.speak(u); showStop(true);
   }
   function stopAll(){ if(audio){ try{ audio.pause(); }catch(e){} } if('speechSynthesis' in window) window.speechSynthesis.cancel(); showStop(false); }
+  var ttsUrl = "/api/tts?text=" + encodeURIComponent(greet + " " + brief);
   function play(){
     stopAll();
-    if(!audio){
-      audio=new Audio(clip);
-      audio.addEventListener('ended',function(){ showStop(false); });
-      audio.addEventListener('error',function(){ showStop(false); fallbackSpeak(); });
-    }
-    try{ audio.currentTime=0; }catch(e){}
+    audio=new Audio(ttsUrl);
+    audio.addEventListener('ended',function(){ showStop(false); });
+    audio.addEventListener('error',function(){ showStop(false); fallbackSpeak(); });
     var p=audio.play();
     if(p&&p.catch){ p.catch(function(){ fallbackSpeak(); }); }
     showStop(true);
